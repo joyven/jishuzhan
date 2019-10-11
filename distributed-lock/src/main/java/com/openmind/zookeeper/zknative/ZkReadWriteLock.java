@@ -93,11 +93,11 @@ public class ZkReadWriteLock implements ReadWriteLock {
 
 
             // 2. 获取锁节点列表。设置监视器
-            List<String> nodes = zooKeeper.getChildren(SHARE_LOCK_PATH, this);
-            nodes = sortLockNodes(nodes);
+            List<String> subNodes = zooKeeper.getChildren(SHARE_LOCK_PATH, this);
+            subNodes = sortLockNodes(subNodes);
 
             // 3.检查能否获取锁，若能，直接返回
-            if (canAcquireLock(name, nodes)) {
+            if (canAcquireLock(name, subNodes)) {
                 log.info(name + " 获取锁");
                 lockStatus = LockStatus.LOCKED;
                 return;
@@ -119,10 +119,10 @@ public class ZkReadWriteLock implements ReadWriteLock {
                 log.info("{}锁节点创建成功", name);
             }
 
-            List<String> nodes = zooKeeper.getChildren(SHARE_LOCK_PATH, this);
-            nodes = sortLockNodes(nodes);
+            List<String> subNodes = zooKeeper.getChildren(SHARE_LOCK_PATH, this);
+            subNodes = sortLockNodes(subNodes);
 
-            if (canAcquireLock(name, nodes)) {
+            if (canAcquireLock(name, subNodes)) {
                 lockStatus = LockStatus.LOCKED;
                 log.info("{}所节点创建成功");
                 return true;
@@ -181,16 +181,16 @@ public class ZkReadWriteLock implements ReadWriteLock {
                     return;
                 }
 
-                List<String> nodes = null;
+                List<String> subNodes = null;
                 try {
-                    nodes = zooKeeper.getChildren(SHARE_LOCK_PATH, this);
-                    nodes = sortLockNodes(nodes);
+                    subNodes = zooKeeper.getChildren(SHARE_LOCK_PATH, this);
+                    subNodes = sortLockNodes(subNodes);
                 } catch (KeeperException | InterruptedException e) {
                     e.printStackTrace();
                     return;
                 }
 
-                if (canAcquireLock(name, nodes)) {
+                if (canAcquireLock(name, subNodes)) {
                     lockStatus = LockStatus.LOCKED;
                     try {
                         lockBarrier.await();
@@ -222,10 +222,10 @@ public class ZkReadWriteLock implements ReadWriteLock {
                 log.info("创建锁节点 " + name);
             }
 
-            List<String> nodes = zooKeeper.getChildren(SHARE_LOCK_PATH, this);
-            nodes = sortLockNodes(nodes);
+            List<String> subNodes = zooKeeper.getChildren(SHARE_LOCK_PATH, this);
+            subNodes = sortLockNodes(subNodes);
 
-            if (isFirstNode(name, nodes)) {
+            if (isFirstNode(name, subNodes)) {
                 System.out.println(name + " 获取锁");
                 lockStatus = LockStatus.LOCKED;
                 return;
@@ -312,11 +312,11 @@ public class ZkReadWriteLock implements ReadWriteLock {
                     return;
                 }
 
-                List<String> nodes = null;
+                List<String> subNodes = null;
                 try {
                     // 获取锁列表
-                    nodes = zooKeeper.getChildren(SHARE_LOCK_PATH, this);
-                    nodes = sortLockNodes(nodes);
+                    subNodes = zooKeeper.getChildren(SHARE_LOCK_PATH, this);
+                    subNodes = sortLockNodes(subNodes);
 
                 } catch (KeeperException | InterruptedException e) {
                     e.printStackTrace();
@@ -324,7 +324,7 @@ public class ZkReadWriteLock implements ReadWriteLock {
                 }
 
                 // 判断前面是否有写操作
-                if (isFirstNode(name, nodes)) {
+                if (isFirstNode(name, subNodes)) {
                     lockStatus = LockStatus.LOCKED;
                     try {
                         lockBarrier.await();
