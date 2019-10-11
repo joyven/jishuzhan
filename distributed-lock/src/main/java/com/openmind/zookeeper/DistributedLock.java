@@ -10,23 +10,23 @@ package com.openmind.zookeeper;
  */
 public interface DistributedLock {
     /**
-     * 加锁，如果加锁失败直接抛出异常
+     * 加锁，直到加锁成功，或者加锁失败抛出异常
      * @throws Exception
      */
     void lock() throws Exception;
 
     /**
-     * 尝试加锁，直到加锁成功，或者加锁失败抛出异常
-     * @return
+     * 尝试加锁，加锁不成功，返回false
+     * @return 加锁成功，返回true；加锁失败，返回false
      * @throws Exception
      */
     boolean tryLock() throws Exception;
 
     /**
-     * 尝试加锁，设置加锁超时时间，在millisecond内加锁成功，或者超时跑出异常
+     * 尝试加锁，设置加锁超时时间，在millisecond内加锁成功或者失败，或者超时跑出异常
      * @param millisecond
-     * @return
-     * @throws Exception
+     * @return 加锁成功，返回true；加锁失败，返回false
+     * @throws Exception 加锁过程异常
      */
     boolean tryLock(long millisecond) throws Exception;
 

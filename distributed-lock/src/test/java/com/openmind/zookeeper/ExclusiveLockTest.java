@@ -1,6 +1,6 @@
 package com.openmind.zookeeper;
 
-import com.openmind.zookeeper.zookeeper.ZkExclusiveLock;
+import com.openmind.zookeeper.zknative.ZkExclusiveLock;
 import org.junit.Test;
 
 import java.util.concurrent.ExecutorService;

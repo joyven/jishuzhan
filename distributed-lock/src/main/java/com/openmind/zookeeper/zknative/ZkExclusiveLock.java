@@ -1,4 +1,4 @@
-package com.openmind.zookeeper.zookeeper;
+package com.openmind.zookeeper.zknative;
 
 import com.openmind.zookeeper.DistributedLock;
 import com.openmind.zookeeper.LockStatus;
@@ -45,6 +45,10 @@ public class ZkExclusiveLock implements DistributedLock {
         log.info("ZkExclusiveLock构造器执行完成");
     }
 
+    /**
+     * 加锁，直到加锁成功，或者加锁失败抛出异常
+     * @throws Exception
+     */
     @Override
     public void lock() throws Exception {
         if (lockStatus != LockStatus.UNLOCK) {
@@ -63,14 +67,25 @@ public class ZkExclusiveLock implements DistributedLock {
         log.info("[{}]惨烈地获取到锁", id);
     }
 
+    /**
+     * 尝试加锁，加锁不成功，返回false
+     * @return 加锁成功，返回true；加锁失败，返回false
+     * @throws Exception
+     */
     @Override
     public boolean tryLock() {
         if (lockStatus == LockStatus.LOCKED) return true;
         Boolean created = createLockNode();
-        lockStatus = created ? LockStatus.LOCKED : LockStatus.UNLOCK;
+        lockStatus = created ? LockStatus.UNLOCK : LockStatus.LOCKED;
         return created;
     }
 
+    /**
+     * 尝试加锁，设置加锁超时时间，在millisecond内加锁成功或者失败，或者超时跑出异常
+     * @param millisecond 超时时间，单位毫秒
+     * @return 加锁成功，返回true；加锁失败，返回false
+     * @throws Exception 加锁过程异常
+     */
     @Override
     public boolean tryLock(long millisecond) throws Exception {
         long milliTimeout = millisecond;
