@@ -33,7 +33,7 @@ public class ZkNativeReadLockTest {
     public void testWriteLock() throws Exception {
         writeLockTest.lock();
         writeLockTest.tryLock();
-        writeLockTest.tryLock1();
+        writeLockTest.tryLockTimeout();
         writeLockTest.unlock();
     }
 
@@ -116,7 +116,7 @@ public class ZkNativeReadLockTest {
         }
 
         @Test
-        public void tryLock1() throws Exception {
+        public void tryLockTimeout() throws Exception {
             ZkReadWriteLock srwl = new ZkReadWriteLock(config);
             Boolean locked = srwl.writeLock().tryLock(20000);
             System.out.println("locked: " + locked);
