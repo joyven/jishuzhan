@@ -6,6 +6,8 @@
     <modules>
         <module>design-patterns</module>
         <module>distributed-lock</module>
+        <module>reactivex</module>
+        <module>netty</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
