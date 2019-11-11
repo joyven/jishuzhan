@@ -21,3 +21,6 @@ jishuzhan（技术栈）主要是个人在做技术几年做的一个总结。
 - dubbo源码分析
 - RocketMQ源码分析
 - 高性能现成消息传递库disruptor
+
+### 6.netty学习
+- [BIO、NIO、AIO浅析](https://www.zhoujunwen.com/2019/java-bio-nio-aio)
