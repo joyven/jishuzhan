@@ -8,6 +8,8 @@
         <module>distributed-lock</module>
         <module>reactivex</module>
         <module>netty</module>
+        <module>jvm</module>
+        <module>k8s</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
