@@ -5,7 +5,7 @@ package com.openmind;
  * @author chaojie.zhang
  * @since 2019-08-22
  */
-public class MyTest6 {
+public class StaticVariableInitOrder {
 
     public static void main(String[] args) {
         Singleton singleton = Singleton.getInstance();
