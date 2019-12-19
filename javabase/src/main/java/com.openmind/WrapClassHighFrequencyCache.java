@@ -1,6 +1,5 @@
 package com.openmind;
 
-import org.codehaus.groovy.reflection.stdclasses.LongCachedClass;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -29,7 +28,18 @@ import java.util.Set;
 public class WrapClassHighFrequencyCache {
 
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
+        integerCacheRange();
+        integerModifyAutoBoxCacheMax();
+        wrapClassAutoUnwrap();
+        implicitTypeConversion();
+        implicitTypeConversion2();
+    }
+
+    /**
+     * Integer类的高频缓存范围
+     */
+    public static void integerCacheRange() {
 
         Integer num1 = 127;
         Integer num2 = 127;
@@ -49,15 +59,14 @@ public class WrapClassHighFrequencyCache {
         // false
         System.out.println(num1 == num5);
 
-    }*/
+    }
 
 
     /**
      *  Integer 是唯一一个可以修改缓存范围的包装类，在 VM optons 加入参数:
      *   -XX:AutoBoxCacheMax=666 即修改缓存最大值为 666
-     * @param args
      */
-   /* public static void main(String[] args) {
+    public static void integerModifyAutoBoxCacheMax() {
         Integer num1 = 128;
         Integer num2 = 128;
         // num1 == num2 is true
@@ -67,31 +76,29 @@ public class WrapClassHighFrequencyCache {
         Integer num4 = 666;
         // num3 == num4 is true
         System.out.println("num3 == num4 is " + (num3 == num4));
-    }*/
+    }
 
     /**
      * 包装类会自动拆箱
      *
      * 有人认为这和 Integer 高速缓存有关系，但你发现把值改为 10000 结果也是 true,true，
      * 这是因为 Integer 和 int 比较时，会自动拆箱为 int 相当于两个 int 比较，值一定是 true,true。
-     * @param args
      */
-    /*public static void main(String[] args) {
+    public static void wrapClassAutoUnwrap() {
         int i = 100;
         Integer j = new Integer(100);
         // true
         System.out.println(i == j);
         // true
         System.out.println(j.equals(i));
-    }*/
+    }
 
 
     /**
      * Short 类型 -1 之后转换成了 int 类型，remove() 的时候在集合中找不到 Int 类型的数据，
      * 所以就没有删除任何元素，执行的结果就是 5
-     * @param args
      */
-    /*public static void main(String[] args) {
+    public static void implicitTypeConversion() {
         Set<Short> set = new HashSet<>();
         for (short i = 0; i < 5; i++) {
             set.add(i);
@@ -108,13 +115,13 @@ public class WrapClassHighFrequencyCache {
         }
         // 1
         System.out.println(set2.size());
-    }*/
+    }
 
     /**
-     *
-     * @param args
+     * 隐式类型转换，将short+int的结果直接赋值给short时编译会报错
+     * 如果用 += 的方式则不会报错
      */
-    public static void main(String[] args) {
+    public static void implicitTypeConversion2() {
         /**
          * 这段代码报错，int不能隐式的转换为short
          * 在1的前面增加(short)进行强制类型你转换依然会有问题
