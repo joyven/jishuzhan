@@ -14,7 +14,7 @@ package com.openmind.inner;
  * @time 10:28
  * @desc
  */
-class MemberOuterClass {
+class InstanceOuter {
     private String a = "I'm a outer class attribute";
     public void sayHi() {
         System.out.println("Hi~,I'm a outer class");
@@ -27,26 +27,26 @@ class MemberOuterClass {
 
     class InnerClass {
         private void sayHi() {
-            MemberOuterClass.this.sayHi();
-            System.out.println(MemberOuterClass.this.a);
+            InstanceOuter.this.sayHi();
+            System.out.println(InstanceOuter.this.a);
             System.out.println("Hi, this inner class");
         }
 
         void sayHello() {
-            MemberOuterClass.this.sayHi();
-            System.out.println(MemberOuterClass.this.a);
+            InstanceOuter.this.sayHi();
+            System.out.println(InstanceOuter.this.a);
             System.out.println("Hello, this inner class");
         }
     }
 }
 
-class MemberOuterClassTest {
+class InstanceOuterTest {
     public static void main(String[] args) {
-        MemberOuterClass outer = new MemberOuterClass();
+        InstanceOuter outer = new InstanceOuter();
         outer.sayHi();
         outer.callInner();
 
-        MemberOuterClass.InnerClass inner =new MemberOuterClass().new InnerClass();
+        InstanceOuter.InnerClass inner =new InstanceOuter().new InnerClass();
         inner.sayHello();
     }
 }

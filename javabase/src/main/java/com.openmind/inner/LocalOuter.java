@@ -11,7 +11,7 @@ package com.openmind.inner;
  * @time 11:13
  * @desc
  */
-public class LocalOuterClass {
+public class LocalOuter {
     private String age = "1222";
     public void sayHi() {
         String hi = "Hi, I'm a local variable";
@@ -30,8 +30,8 @@ public class LocalOuterClass {
     }
 }
 
-class LocalOuterClassTest {
+class LocalOuterTest {
     public static void main(String[] args) {
-        new LocalOuterClass().sayHi();
+        new LocalOuter().sayHi();
     }
 }

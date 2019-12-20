@@ -12,20 +12,20 @@ package com.openmind.inner;
  * @time 11:21
  * @desc
  */
-interface AnonymityOuterClass {
+interface AnonymityOuter {
     void sayHi();
 }
 
 
-class AnonymityOuterClassTest {
+class AnonymityOuterTest {
     public static void main(String[] args) {
-        /*AnonymityOuterClass anonymityOuter = new AnonymityOuterClass() {
+        /*AnonymityOuter anonymityOuter = new AnonymityOuter() {
             @Override
             public void sayHi() {
                 System.out.println("Hi, AnonymityOuter.");
             }
         };*/
-        AnonymityOuterClass anonymityOuter = () -> System.out.println("Hi, AnonymityOuter.");
+        AnonymityOuter anonymityOuter = () -> System.out.println("Hi, AnonymityOuter.");
         anonymityOuter.sayHi();
     }
 }
