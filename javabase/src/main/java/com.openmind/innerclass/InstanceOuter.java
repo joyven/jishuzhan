@@ -1,4 +1,4 @@
-package com.openmind.inner;
+package com.openmind.innerclass;
 
 /**
  * jishuzhan
@@ -29,13 +29,13 @@ class InstanceOuter {
         private void sayHi() {
             InstanceOuter.this.sayHi();
             System.out.println(InstanceOuter.this.a);
-            System.out.println("Hi, this inner class");
+            System.out.println("Hi, this innerclass class");
         }
 
         void sayHello() {
             InstanceOuter.this.sayHi();
             System.out.println(InstanceOuter.this.a);
-            System.out.println("Hello, this inner class");
+            System.out.println("Hello, this innerclass class");
         }
     }
 }

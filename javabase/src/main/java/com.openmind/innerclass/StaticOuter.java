@@ -1,4 +1,4 @@
-package com.openmind.inner;
+package com.openmind.innerclass;
 
 /**
  * jishuzhan
