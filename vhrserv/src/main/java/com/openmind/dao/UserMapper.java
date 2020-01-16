@@ -27,13 +27,4 @@ public interface UserMapper {
      */
     @Select("select * from user where username = #{username}")
     User getUserByUsername(@Param("username") String username);
-
-    /**
-     * 根据用户id查询角色
-     *
-     * @param id
-     * @return
-     */
-    @Select("select * from role r,user_role ur where r.id=ur.rid and ur.uid=#{id}")
-    List<Role> getUserRoleByUid(@Param("id") Integer id);
 }

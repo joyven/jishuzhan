@@ -7,7 +7,7 @@ import org.springframework.web.context.request.WebRequest;
 import java.util.Map;
 
 /**
- * MyErrorAttributes
+ * MyErrorAttributes 自定义错误数据
  *
  * @author zhoujunwen
  * @date 2020-01-07

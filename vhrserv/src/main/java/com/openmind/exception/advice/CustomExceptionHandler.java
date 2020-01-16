@@ -1,20 +1,16 @@
 package com.openmind.exception.advice;
 
 import org.apache.shiro.authz.AuthorizationException;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * CustomExceptionHandler
+ * 全局异常
  *
  * @author zhoujunwen
  * @date 2020-01-07
@@ -32,6 +28,13 @@ public class CustomExceptionHandler {
         writer.close();
     }*/
 
+    /**
+     * 全局异常
+     *
+     * @param e
+     * @return
+     * @throws IOException
+     */
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ModelAndView uploadException(MaxUploadSizeExceededException e) throws IOException {
         ModelAndView view = new ModelAndView();
@@ -50,31 +53,8 @@ public class CustomExceptionHandler {
     public ModelAndView error(AuthorizationException e) {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("error");
-        mv.addObject("error", e.getMessage());
+        mv.addObject("msg", e.getMessage());
         return mv;
-    }
-
-    @ModelAttribute(value = "userInfo")
-    public Map<String, String> getUserInfo() {
-        Map<String, String> userInfo = new HashMap<>();
-        userInfo.put("gender", "男");
-        userInfo.put("username", "张三");
-        return userInfo;
-    }
-
-    /**
-     * 数据绑定测试demo
-     *
-     * @param binder
-     */
-    @InitBinder("b")
-    public void init(WebDataBinder binder) {
-        binder.setFieldDefaultPrefix("b.");
-    }
-
-    @InitBinder("a")
-    public void init2(WebDataBinder binder) {
-        binder.setFieldDefaultPrefix("a.");
     }
 
 }

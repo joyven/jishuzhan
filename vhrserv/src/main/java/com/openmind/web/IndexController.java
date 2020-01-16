@@ -1,7 +1,7 @@
 package com.openmind.web;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * IndexController
@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
  * @time 20:54
  * @desc
  */
-@RestController
+@Controller
 @RequestMapping("/")
 public class IndexController {
     @RequestMapping("/index")
     public String index() {
         return "index";
     }
+
 }

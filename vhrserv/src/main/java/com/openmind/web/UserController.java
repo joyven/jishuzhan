@@ -4,10 +4,7 @@ import com.openmind.vo.Author;
 import com.openmind.vo.Book;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -35,6 +32,7 @@ public class UserController {
             Object value = map.get(key);
             System.out.println(">>>>>key=" + key + ",>>>>value=" + value);
         }
+        return;
     }
 
     @GetMapping("user")

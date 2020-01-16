@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * MyErrorController
+ * MyErrorController 自定义错误页面
  *
  * @author zhoujunwen
  * @date 2020-01-07

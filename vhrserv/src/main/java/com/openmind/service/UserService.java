@@ -1,5 +1,6 @@
 package com.openmind.service;
 
+import com.openmind.dao.RoleMapper;
 import com.openmind.dao.UserMapper;
 import com.openmind.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ import org.springframework.stereotype.Service;
 public class UserService implements UserDetailsService {
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    RoleMapper roleMapper;
 
     /**
      * 用户登录时自动调用
@@ -35,7 +38,7 @@ public class UserService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("用户不存在");
         }
-        user.setRoles(userMapper.getUserRoleByUid(user.getId()));
+        user.setRoles(roleMapper.getUserRoleByUid(user.getId()));
         return user;
     }
 }

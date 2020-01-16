@@ -13,7 +13,13 @@ import java.util.List;
  * @time 21:08
  * @desc
  */
+@Mapper
 public interface MenuMapper {
+    /**
+     * 查询所有角色对应的菜单
+     *
+     * @return
+     */
     @Results(id = "roleMenuMap", value = {
             @Result(column = "id", property = "id", id = true),
             @Result(column = "pattern", property = "pattern"),
@@ -23,6 +29,4 @@ public interface MenuMapper {
     @Select("SELECT * from menu")
     @ResultType(Menu.class)
     List<Menu> getAllMenuWithRoles();
-
-
 }
