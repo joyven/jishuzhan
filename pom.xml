@@ -11,6 +11,7 @@
         <module>jvm</module>
         <module>k8s</module>
         <module>javabase</module>
+        <module>guice-demo</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
