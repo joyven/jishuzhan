@@ -1,0 +1,77 @@
+spring:
+    profiles:
+        active: shiro
+    mvc:
+        static-path-pattern: /**
+    resources:
+        static-locations: ["classpath:/META-INF/resources/","classpath:/resources/","classpath:/static/","classpath:/public/","/"]
+    servlet:
+        multipart:
+            enabled: true   # 开启文件上传
+            file-size-threshold: 0 # 文件写入磁盘的预置
+            location: /tmp # 文件上传的临时保存位置
+            max-file-size: 2KB # 上传单个文件的最大大小
+            max-request-size: 2000MB # 多文件上传时的总大小
+            resolve-lazily: false # 文件是否延迟解析
+    http:
+        encoding:
+            force-response: true
+            charset: UTF-8
+            force: true
+            force-request: true
+    autoconfigure:
+        exclude: org.springframework.boot.autoconfigure.cassandra.CassandraAutoConfiguration
+    #    security: # 可以重写WebSecurityConfigurerAdapter中的configure(AuthenticationManagerBuilder auth)方法
+    #        user:
+    #            name: admin
+    #            password: 123
+    #            roles: admin
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        username: root
+        password: 123456
+        url: jdbc:mysql://localhost:3306/vhrsev
+        driver-class-name: com.mysql.cj.jdbc.Driver
+    redis:
+        database: 0
+        host: localhost
+        port: 6379
+        password: 123456
+        jedis:
+            pool:
+                max-active: 8
+                max-idle: 8
+                max-wait: -1ms
+                min-idle: 0
+    main:
+        allow-bean-definition-overriding: true
+
+server:
+    port: 443
+    error:
+        path: /error
+    servlet:
+        context-path: /
+        session:
+            timeout: 30m
+            cookie:
+                name: vhrserv
+                path: /
+                http-only: true
+                secure: true
+    tomcat:
+        uri-encoding: UTF-8
+        max-threads: 500
+        basedir: /tmp
+        redirect-context-root: true
+    ssl:
+        key-alias: tomcathttps
+        key-store: classpath:vhrserv.ca
+        key-password: vhrserv  #密钥口令
+        key-store-password: vhrserv #密钥库口令
+        enabled: true
+debug: true
+logging:
+    level:
+        com.openmind: debug
+        org.mybatis: debug

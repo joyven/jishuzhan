@@ -1,0 +1,24 @@
+shiro:
+    enabled: true   # 开启shiro，默认为true
+    web:
+        enabled: true # 开始Shiro Web配置
+    loginUrl: /login_page # 登录地址，默认为 /login.jsp
+    successUrl: /index #  登录成功跳转地址
+    unauthorizedUrl: /unauthorized # 未获得授权默认跳转地址
+    sessionManager:
+        sessionIdCookieEnabled: true # 开启允许通过URL参数实现会话跟踪，如果网站支持cookie，可以关闭此项， 默认为true
+        sessionIdUrlRewritingEnabled: true # 标识是否开启允许通过Cookie实现会话跟踪，默认为true
+spring:
+    freemarker:
+        allow-request-override: false # HttpServletRequest中的属性是否可以覆盖controller中的model的同名项目
+        allow-session-override: false # HttpSession的属性是否可以覆盖controller中model的同名项
+        cache: false # 是否开启缓存
+        charset: UTF-8 # 模板文件编码
+        check-template-location: true # 是否检查模板文件位置
+        content-type: text/html
+        expose-request-attributes: false #是否将HttpServletRequest中的属性添加到model
+        expose-session-attributes: false # 是否将HttpSession中的属性添加到model中
+        expose-spring-macro-helpers: false
+        suffix: .ftl
+        template-loader-path: classpath:/templates/
+        
