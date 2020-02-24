@@ -25,9 +25,10 @@ public class DateTimeInJdk7AndJdk8 {
 
     /**
      * Java7 地宫两个时间相关的类
+     *
+     * @throws ParseException
      * @see java.util.Date 和
      * @see java.util.Calendar
-     * @throws ParseException
      */
     private static void dateTimeInjdk7() throws ParseException {
         // 1.获取时间
@@ -35,7 +36,7 @@ public class DateTimeInJdk7AndJdk8 {
         Date date = new Date();
         System.out.println(date);
         Calendar calendar = Calendar.getInstance();
-        System.out.println( calendar.getTime());
+        System.out.println(calendar.getTime());
 
         // 2.获取时间戳
         // output: 1576657779565
@@ -73,6 +74,7 @@ public class DateTimeInJdk7AndJdk8 {
 
     /**
      * Java8提供三个日期时间相关的API
+     *
      * @see java.time.LocalDate 只包含日期，不包含时间，不可变类，且线程安全
      * @see java.time.LocalTime 只包含时间，不包含日期，不可变类，且线程安全
      * @see java.time.LocalDateTime 包含日期和时间，不可变类，且线程安全
@@ -127,7 +129,7 @@ public class DateTimeInJdk7AndJdk8 {
         Duration duration = Duration.between(localDateTime2, localDateTime3);
         System.out.println(duration.getSeconds());
 
-        // 8.尖酸两个日期间隔
+        // 8.计算两个日期间隔
         LocalDate localDate1 = LocalDate.now();
         LocalDate localDate2 = localDate1.plusDays(20);
         Period period = Period.between(localDate1, localDate2);

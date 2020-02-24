@@ -1,11 +1,8 @@
 package com.openmind.dao;
 
-import com.openmind.vo.Role;
 import com.openmind.vo.User;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-
-import java.util.List;
 
 /**
  * UserMapper

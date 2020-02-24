@@ -13,7 +13,7 @@ import java.util.List;
  * @time 21:40
  * @desc
  */
-@Mapper
+//@Mapper
 public interface RoleMapper {
     @Results(id = "roleMenuMap", value = {
             @Result(column = "id", property = "id", id = true),

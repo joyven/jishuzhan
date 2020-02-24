@@ -13,7 +13,7 @@ import java.util.List;
  * @time 21:08
  * @desc
  */
-@Mapper
+//@Mapper
 public interface MenuMapper {
     /**
      * 查询所有角色对应的菜单
@@ -23,7 +23,8 @@ public interface MenuMapper {
     @Results(id = "roleMenuMap", value = {
             @Result(column = "id", property = "id", id = true),
             @Result(column = "pattern", property = "pattern"),
-            @Result(column = "id", property = "roles", many = @Many(select = "com.openmind.dao.RoleMapper.getAllRolesByMenuId"))
+            @Result(column = "id", property = "roles",
+                    many = @Many(select = "com.openmind.dao.RoleMapper.getAllRolesByMenuId"))
 
     })
     @Select("SELECT * from menu")

@@ -2,7 +2,6 @@ package com.openmind.config;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 
 /**
  * MapperConfig
@@ -13,7 +12,6 @@ import org.springframework.core.annotation.Order;
  * @desc
  */
 @Configuration
-@Order(1)
 @MapperScan("com.openmind.dao")
 public class MapperConfig {
 }
