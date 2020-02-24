@@ -11,6 +11,7 @@
         <module>jvm</module>
         <module>k8s</module>
         <module>javabase</module>
+        <module>guice-demo</module>
         <module>vhrserv</module>
     </modules>
     <parent>
