@@ -1,0 +1,115 @@
+spring:
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        username: root
+        password: SQLzjw0903zh
+        url: jdbc:mysql:///vhrserv
+    ###### 端点保护
+    security:
+        user:
+            name: admin
+            password: 123
+            roles: ADMIN
+##### 开启端点
+management:
+    endpoint:
+        auditevents:
+            enabled: true  # 展示当前应用程序的审计事件信息
+            cache:
+                time-to-live: 0ms
+
+        beans: # 展示所有Spring Beans信息
+            enabled: true
+            cache:
+                time-to-live: 0ms
+        conditions: # 展示一个自动配置类的使用报告，该报告展示所有自动配置类及他们被使用或未被使用的原因
+            enabled: true
+            cache:
+                time-to-live: 0ms
+        configprops: # 暂时所有@ConfigurationProperties的列表
+            enabled: true
+            cache:
+                time-to-live: 0ms
+            keys-to-sanitize: password
+        env: # 展示系统运行环境信息
+            enabled: true
+            cache:
+                time-to-live: 0ms
+            keys-to-sanitize: password
+        flyway: # 展示数据库迁移路径
+            enabled: true
+            cache:
+                time-to-live: 0ms
+        health: # 展示应用程序的健康信息
+            enabled: true
+            cache:
+                time-to-live: 0ms
+            roles:
+                ddd
+            show-details: always
+        httptrace: # 展示trace信息（默认为最新的100条HTTP请求）
+            enabled: true
+            cache:
+                time-to-live: 0ms
+        info: # 展示应用的定制信息，这些定制信息以info开头
+            enabled: true
+            cache:
+                time-to-live: 0ms
+        loggers: # 展示并修改应用的日志配置
+            enabled: true
+            cache:
+                time-to-live: 0ms
+        liquibase: # 展示人物LiquiBase数据库迁移路径
+            enabled: true
+            cache:
+                time-to-live: 0ms
+        metrics: # 展示应用程序度量信息
+            enabled: true
+            cache:
+                time-to-live: 0ms
+        mappings: # 展示所有@RequestMapping路径的集合列表
+            enabled: true
+            cache:
+                time-to-live: 0ms
+        scheduledtasks: # 展示应用程序的所有定时任务
+            enabled: true
+            cache:
+                time-to-live: 0ms
+        shutdown: # 远程关闭应用接口，默认为false
+            enabled: true
+        sessions: # 展示并操作 Spring Session 回话
+            enabled: true
+        threaddump: # 展示线程活动快照
+            enabled: true
+            cache:
+                time-to-live: 0ms
+        heapdump: # web,返回一个GZip压缩的hprof堆转储文件
+            enabled: true
+            cache:
+                time-to-live: 0ms
+        jolokia: # 展示通过HTTP暴露的JMX beans
+            enabled: true
+            config: ''
+        logfile: # web,返回日志文件的内容
+            enabled: true
+            cache:
+                time-to-live: 0ms
+            external-file: ''
+        prometheus: # 展示一个可以被Prometheus服务器抓取的metrics数据
+            enabled: true
+            cache:
+                time-to-live: 0ms
+        ######## 上面断点大部分默认是开启，如果关闭默认的配置，然后手动指定需要开启哪些端点，可以有如下配置 enabled-by-default: false
+    endpoints:
+        enabled-by-default: true
+        #####暴露端点
+        web:
+            exposure:
+                include: health,info,beans # 如果要暴露所有端点，则可用 "*" 即可，注意在YAML格式中一定要加引号
+#        endpoint:
+#        info:
+#            enabled: true
+#        httptrace:
+#            enabled: true
+
+
