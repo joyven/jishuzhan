@@ -1,32 +1,25 @@
 package com.openmind.config;
 
 import com.jagregory.shiro.freemarker.ShiroTags;
+import com.openmind.helper.PasswordHelper;
+import com.openmind.service.UserService;
+import com.openmind.shiro.CorsAuthenticationFilter;
 import com.openmind.shiro.FormLoginFilter;
+import com.openmind.shiro.UrlPathMatchingFilter;
 import com.openmind.shiro.UserRealm;
+import com.openmind.vo.Menu;
 import freemarker.template.TemplateException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.cache.CacheManager;
-import org.apache.shiro.cache.MemoryConstrainedCacheManager;
-import org.apache.shiro.codec.Base64;
-import org.apache.shiro.mgt.RememberMeManager;
-import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.Realm;
-import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.session.mgt.eis.MemorySessionDAO;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
-import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
-import org.apache.shiro.web.mgt.CookieRememberMeManager;
-import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.apache.shiro.web.servlet.Cookie;
-import org.apache.shiro.web.servlet.SimpleCookie;
-import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
-import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -34,11 +27,16 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import javax.servlet.Filter;
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 /**
- * ShiroConfig  TextConfigurationRealm 方式简单实现
+ * 权限控制有:
+ * - 注解的方式
+ * - shiro 标签的方式
+ * - url 动态控制的方式
  *
  * @author zhoujunwen
  * @date 2020-01-09
@@ -47,6 +45,19 @@ import java.util.Properties;
  */
 @Configuration
 public class ShiroConfig2 {
+    @Autowired
+    UserService userService;
+
+    /**
+     * 配置 Bean 后置处理器: 会自动的调用和 Spring 整合后各个组件的生命周期方法.
+     *
+     * @return LifecycleBeanPostProcessor
+     */
+    @Bean
+    public static LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
+        return new LifecycleBeanPostProcessor();
+    }
+
     /**
      * ① 用户和角色的权限，可以根据情况改为从数据中获取
      *
@@ -93,19 +104,43 @@ public class ShiroConfig2 {
     @Bean
     ShiroFilterFactoryBean shiroFilterFactoryBean() {
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
-        shiroFilter.setSecurityManager(securityManager());
+//        shiroFilter.setSecurityManager(securityManager());
 
         // 添加自己的过滤器
         Map<String, Filter> filters = shiroFilter.getFilters();
+        filters.put("cors", new CorsAuthenticationFilter());
         filters.put("authc", new FormLoginFilter());
+        filters.put("req", new UrlPathMatchingFilter());
 
         // 系统拦截器配置,等同于shiroFilterChainDefinition()中的配置
         shiroFilter.setLoginUrl("/login_page");
         shiroFilter.setSuccessUrl("/index");
         shiroFilter.setUnauthorizedUrl("/error");
 
+        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+        filterChainDefinitionMap.put("/logout", "logout");
+        filterChainDefinitionMap.put("/css/**", "anon");
+        filterChainDefinitionMap.put("/js/**", "anon");
+        filterChainDefinitionMap.put("/img/**", "anon");
+        filterChainDefinitionMap.put("/font-awesome/**", "anon");
+
+
         // 从数据库中获取资源配置，加入到拦截器，实现动态拦截
-//        Map<String, String> filterChainDefinitionMap = shiroService.loadFilterChainDefinitions();
+        List<Menu> menus = null;//shiroService.selectAll();
+        /*for (Menu menu : menus) {
+            List<Role> roles = menu.getRoles();
+            Set<String> roleNames = roles.stream()
+                    .map(r -> StringUtils.replace(r.getName(), "ROLE_", ""))
+                    .collect(Collectors.toSet());
+            if (CollectionUtils.isNotEmpty(roleNames)) {
+                filterChainDefinitionMap.put(menu.getPattern(), "authc, roles[" + StringUtils.join(roleNames, ",") + "]");
+//                 String permission = "perms[" + resources.getResurl()+ "]";
+//                 filterChainDefinitionMap.put(resources.getResurl(),permission);
+            }
+            // 如果有资源code，还可以加入资源code
+            // filterChainDefinitionMap.put(menu.getPattern(), "authc, perms[document:read]");
+        }*/
+
 //        shiroFilter.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilter;
     }
@@ -136,14 +171,14 @@ public class ShiroConfig2 {
 //        return redisSessionDAO;
     }
 
-    @Bean
-    @Order(1)
-    SessionManager sessionManager() {
-        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-        sessionManager.setSessionDAO(sessionDAO());
-        sessionManager.setCacheManager(cacheManager());
-        return sessionManager;
-    }
+//    @Bean
+//    @Order(1)
+//    SessionManager sessionManager() {
+//        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+//        sessionManager.setSessionDAO(sessionDAO());
+//        sessionManager.setCacheManager(cacheManager());
+//        return sessionManager;
+//    }
 
     /**
      * 方法声明的时候类型必须是 DefaultWebSecurityManager，如果是SecurityManager则会报错：
@@ -151,58 +186,58 @@ public class ShiroConfig2 {
      *
      * @return
      */
-    @Bean
-    @Order(1)
-    DefaultWebSecurityManager securityManager() {
-        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        // 设置realm
-        securityManager.setRealm(realm());
-        // 设置session管理器
-        securityManager.setSessionManager(sessionManager());
-        securityManager.setCacheManager(cacheManager());
-        securityManager.setRememberMeManager(rememberMeManager());
-        return securityManager;
-    }
+//    @Bean
+//    @Order(1)
+//    DefaultWebSecurityManager securityManager() {
+//        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+//        // 设置realm
+//        securityManager.setRealm(realm());
+//        // 设置session管理器
+//        securityManager.setSessionManager(sessionManager());
+//        securityManager.setCacheManager(cacheManager());
+//        securityManager.setRememberMeManager(rememberMeManager());
+//        return securityManager;
+//    }
 
     /**
      * 缓存管理器
      *
      * @return
      */
-    @Bean
-    CacheManager cacheManager() {
-        return new MemoryConstrainedCacheManager();
-
-        /*RedisCacheManager cacheManager = new RedisCacheManager();
-
-        RedisManager redisManager = new RedisManager();
-        redisManager.setHost(redisProperties.getHost() + ":" + redisProperties.getPort());
-        redisManager.setPassword(redisProperties.getPassword());
-        redisManager.setDatabase(redisProperties.getDatabase());
-        redisManager.setTimeout(redisProperties.getTimeout() != null ? redisProperties.getTimeout().getNano() : 3600);
-
-
-        cacheManager.setRedisManager(redisManager);
-        cacheManager.setExpire(1800);
-
-        return cacheManager;*/
-    }
+//    @Bean
+//    CacheManager cacheManager() {
+//        return new MemoryConstrainedCacheManager();
+//
+//        /*RedisCacheManager cacheManager = new RedisCacheManager();
+//
+//        RedisManager redisManager = new RedisManager();
+//        redisManager.setHost(redisProperties.getHost() + ":" + redisProperties.getPort());
+//        redisManager.setPassword(redisProperties.getPassword());
+//        redisManager.setDatabase(redisProperties.getDatabase());
+//        redisManager.setTimeout(redisProperties.getTimeout() != null ? redisProperties.getTimeout().getNano() : 3600);
+//
+//
+//        cacheManager.setRedisManager(redisManager);
+//        cacheManager.setExpire(1800);
+//
+//        return cacheManager;*/
+//    }
 
     /**
      * 记住我
      *
      * @return
      */
-    @Bean
+    /*@Bean
     RememberMeManager rememberMeManager() {
         CookieRememberMeManager rememberMeManager = new CookieRememberMeManager();
         rememberMeManager.setCookie(cookie());
         //rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度(128 256 512 位)
         rememberMeManager.setCipherKey(Base64.decode("3AvVhmFLUs0KTA3Kprsdag=="));
         return rememberMeManager;
-    }
+    }*/
 
-    @Bean
+    /*@Bean
     Cookie cookie() {
         SimpleCookie cookie = new SimpleCookie();
         // 这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
@@ -211,7 +246,7 @@ public class ShiroConfig2 {
         cookie.setMaxAge(2592000);
 
         return cookie;
-    }
+    }*/
 
     /**
      * shiro标签在freemarker中的扩展ShiroAnnotationProcessorAutoConfiguration
@@ -262,7 +297,7 @@ public class ShiroConfig2 {
             /**
              * 我们也可以引入 de.svenkubiak:jBCrypt:0.4.1的包
              */
-            return BCrypt.checkpw(plaintext, hashed);
+            return PasswordHelper.matcher(plaintext, hashed);
         };
     }
 
@@ -287,28 +322,18 @@ public class ShiroConfig2 {
     }
 
     /**
-     * 配置 Bean 后置处理器: 会自动的调用和 Spring 整合后各个组件的生命周期方法.
-     *
-     * @return
-     */
-    @Bean
-    public static LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
-        return new LifecycleBeanPostProcessor();
-    }
-
-    /**
      * 开启shiro aop注解支持.
      * 使用代理方式;所以需要开启代码支持;
      *
      * @param securityManager
      * @return
      */
-    @Bean
+    /*@Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
         AuthorizationAttributeSourceAdvisor advisor = new AuthorizationAttributeSourceAdvisor();
         advisor.setSecurityManager(securityManager);
         return advisor;
-    }
+    }*/
 
     /**
      * 限制同一账号登录同时登录人数控制

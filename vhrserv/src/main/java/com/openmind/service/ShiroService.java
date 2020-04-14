@@ -1,10 +1,12 @@
 package com.openmind.service;
 
 import com.openmind.dao.MenuMapper;
+import com.openmind.vo.Menu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,10 +17,16 @@ import java.util.Map;
  * @time 14:29
  * @desc
  */
-@Service
-public class ShiroService {
+//@Service
+public class ShiroService implements ShiroServiceInter {
     @Autowired
     MenuMapper menuMapper;
+
+    public List<Menu> selectAll() {
+        return menuMapper.getAllMenuWithRoles();
+    }
+
+
 //    @Resource
 //    ShiroFilterFactoryBean shiroFilterFactoryBean;
 
