@@ -5,6 +5,7 @@ import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.openmind.interceptor.AccessLimitInterceptor;
 import com.openmind.interceptor.PermitInterceptor;
 import org.springframework.boot.autoconfigure.web.servlet.MultipartProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -101,6 +102,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new PermitInterceptor())
+                .addPathPatterns("/**")
+                .excludePathPatterns("/error");
+        registry.addInterceptor(new AccessLimitInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/error");
     }

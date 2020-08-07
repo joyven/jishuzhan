@@ -1,5 +1,6 @@
 package com.openmind.web;
 
+import com.openmind.annotation.RateLimiterAspect;
 import com.openmind.vo.Author;
 import com.openmind.vo.Book;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,6 +23,7 @@ import java.util.Set;
 @RequestMapping("/user")
 public class UserController {
 
+    @RateLimiterAspect
     @GetMapping("/userInfo")
     public void getUserInfo(Model model) {
         Map<String, Object> map = model.asMap();

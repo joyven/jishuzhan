@@ -1,5 +1,6 @@
 package com.openmind.web;
 
+import com.openmind.annotation.RateLimiterAspect;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +24,7 @@ import java.util.UUID;
 public class UploadController {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
+    @RateLimiterAspect
     @PostMapping("/upload")
     public String upload(MultipartFile uploadFile, HttpServletRequest request) {
         String uploadPath = request.getSession().getServletContext().getRealPath("/uploadFile/");

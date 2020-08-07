@@ -1,5 +1,6 @@
 package com.openmind.web;
 
+import com.openmind.annotation.AccessLimit;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/")
 public class IndexController {
+    @AccessLimit(limit = 100, sec = 10)
     @RequestMapping("/index")
     public String index() {
         return "index";
