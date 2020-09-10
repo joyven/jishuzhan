@@ -1,4 +1,4 @@
-package com.openmind.zookeeper.zknative;
+package com.openmind.zookeeper.zk;
 
 import com.openmind.zookeeper.DistributedLock;
 import com.openmind.zookeeper.LockStatus;

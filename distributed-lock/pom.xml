@@ -18,7 +18,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <zk-client-version>0.8</zk-client-version>
+        <zk-client-version>0.10</zk-client-version>
         <curator-version>2.9.0</curator-version>
         <zookeeper-version>3.4.14</zookeeper-version>
     </properties>

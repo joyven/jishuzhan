@@ -1,9 +1,14 @@
-package com.openmind.zookeeper.zknative;
+package com.openmind.zookeeper.zk;
 
 import com.openmind.zookeeper.DistributedLock;
 import com.openmind.zookeeper.LockStatus;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.zookeeper.*;
+import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.Watcher;
+import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 
 import java.io.IOException;
@@ -47,6 +52,7 @@ public class ZkExclusiveLock implements DistributedLock {
 
     /**
      * 加锁，直到加锁成功，或者加锁失败抛出异常
+     *
      * @throws Exception
      */
     @Override
@@ -69,6 +75,7 @@ public class ZkExclusiveLock implements DistributedLock {
 
     /**
      * 尝试加锁，加锁不成功，返回false
+     *
      * @return 加锁成功，返回true；加锁失败，返回false
      * @throws Exception
      */
@@ -82,6 +89,7 @@ public class ZkExclusiveLock implements DistributedLock {
 
     /**
      * 尝试加锁，设置加锁超时时间，在millisecond内加锁成功或者失败，或者超时跑出异常
+     *
      * @param millisecond 超时时间，单位毫秒
      * @return 加锁成功，返回true；加锁失败，返回false
      * @throws Exception 加锁过程异常
@@ -94,7 +102,7 @@ public class ZkExclusiveLock implements DistributedLock {
         }
 
         final long deadline = System.currentTimeMillis() + milliTimeout;
-        for (;;) {
+        for (; ; ) {
             if (!tryLock()) {
                 if (milliTimeout > spinForTimeoutThreshold) {
                     TimeUnit.MILLISECONDS.sleep(SLEEP_TIME);
