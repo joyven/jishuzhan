@@ -1,0 +1,31 @@
+<assembly>
+    <id>dist</id>
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <directory>${project.build.directory}/dubbo/META-INF/assembly/bin</directory>
+            <outputDirectory>bin</outputDirectory>
+            <fileMode>0755</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>target/lib</directory>
+            <outputDirectory>lib</outputDirectory>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>%regex[^((?!sources).)*\.jar$]</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+    <files>
+        <!-- 将 target/${project.build.finalName}.jar 文件添加到最后的压缩包中-->
+        <file>
+            <source>target/${project.build.finalName}.jar</source>
+            <!-- 研所包的根目录-->
+            <outputDirectory>.</outputDirectory>
+            <filtered>false</filtered>
+        </file>
+    </files>
+</assembly>
