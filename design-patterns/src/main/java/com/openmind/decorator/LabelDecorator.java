@@ -1,4 +1,4 @@
-package com.openmind.Decorator;
+package com.openmind.decorator;
 
 /**
  * ${name}
@@ -16,6 +16,9 @@ public class LabelDecorator extends Decorator {
     @Override
     public void label() {
         // 标注师标注的方式
+        System.out.println("标注师打标开始");
+        iLabel.label();
+        System.out.println("标注师达标结束");
     }
 
     // 标注师的其他操作

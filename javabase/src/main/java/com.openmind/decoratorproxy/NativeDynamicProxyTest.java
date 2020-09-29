@@ -1,4 +1,4 @@
-package com.openmind.proxy;
+package com.openmind.decoratorproxy;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

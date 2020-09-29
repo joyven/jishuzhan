@@ -1,4 +1,4 @@
-package com.openmind.Decorator;
+package com.openmind.decorator;
 
 /**
  * ${name}

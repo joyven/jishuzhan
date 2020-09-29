@@ -1,4 +1,4 @@
-package com.openmind.Decorator;
+package com.openmind.decorator;
 
 /**
  * ${name}
@@ -11,6 +11,6 @@ package com.openmind.Decorator;
 public class Label implements ILabel {
     @Override
     public void label() {
-        // TODO 标注任务
+        System.out.println("此处是打标相同的动作");
     }
 }

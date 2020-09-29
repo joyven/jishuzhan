@@ -1,4 +1,4 @@
-package com.openmind.Decorator;
+package com.openmind.decorator;
 
 /**
  * ${name}
@@ -16,6 +16,9 @@ public class AuditDecorator extends Decorator {
     @Override
     public void label() {
         // 审核员标注的方式
+        System.out.println("审核员审核打标开始");
+        iLabel.label();
+        System.out.println("审核员审核打标结束");
     }
 
     // 审核员的其他操作

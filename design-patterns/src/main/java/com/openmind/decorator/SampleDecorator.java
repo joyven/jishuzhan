@@ -1,4 +1,4 @@
-package com.openmind.Decorator;
+package com.openmind.decorator;
 
 /**
  * ${name}
@@ -16,6 +16,9 @@ public class SampleDecorator extends Decorator {
     @Override
     public void label() {
         // 抽检员标注的方式
+        System.out.println("抽检员抽检标注开始");
+        iLabel.label();
+        System.out.println("抽检员抽检标注结束");
 
     }
 

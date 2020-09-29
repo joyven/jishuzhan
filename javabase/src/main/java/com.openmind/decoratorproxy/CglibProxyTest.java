@@ -1,4 +1,4 @@
-package com.openmind.proxy;
+package com.openmind.decoratorproxy;
 
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;

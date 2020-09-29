@@ -15,6 +15,7 @@
         <module>vhrserv</module>
         <module>leetcode</module>
         <module>crack-agent</module>
+        <module>asm</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

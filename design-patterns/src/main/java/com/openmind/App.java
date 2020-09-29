@@ -3,7 +3,7 @@ package com.openmind;
 import com.openmind.State.PendingInspectionState;
 import com.openmind.State.SampleTaskContent;
 
-import com.openmind.Decorator.*;
+import com.openmind.decorator.*;
 
 /**
  * Hello world!
