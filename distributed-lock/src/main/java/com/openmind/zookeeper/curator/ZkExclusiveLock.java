@@ -1,13 +1,14 @@
 package com.openmind.zookeeper.curator;
 
-import com.openmind.zookeeper.LockStatus;
 import com.openmind.zookeeper.DistributedLock;
-import lombok.extern.slf4j.Slf4j;
+import com.openmind.zookeeper.LockStatus;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.data.Stat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Random;
 import java.util.concurrent.CyclicBarrier;
@@ -21,8 +22,8 @@ import java.util.concurrent.TimeUnit;
  * @time 11:45
  * @desc
  */
-@Slf4j
 public class ZkExclusiveLock implements DistributedLock {
+    private final static Logger log = LoggerFactory.getLogger(ZkExclusiveLock.class);
 
     private LockStatus lockStatus;
     private CuratorFramework curatorFramework;

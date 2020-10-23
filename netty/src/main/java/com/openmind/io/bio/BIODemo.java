@@ -1,12 +1,7 @@
 package com.openmind.io.bio;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.InetSocketAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.Date;
+import java.io.*;
+import java.net.*;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -19,7 +14,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * @desc
  */
 public class BIODemo {
-    public static void main(String[] args) throws IOException {
+    public void start() throws IOException {
         ServerSocket serverSocket = new ServerSocket();
         serverSocket.bind(new InetSocketAddress("0.0.0.0", 8888), 50);
         Socket socket;

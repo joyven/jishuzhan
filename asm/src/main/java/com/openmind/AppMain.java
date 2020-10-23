@@ -10,10 +10,16 @@ package com.openmind;
 public class AppMain {
     public int a = 0;
     public int b = 1;
+    private String abc = "ass";
 
     public void test01() {
     }
 
     public void test02() {
+
+    }
+
+    public String getAbc() {
+        return abc;
     }
 }

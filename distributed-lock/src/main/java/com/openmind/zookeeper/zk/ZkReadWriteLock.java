@@ -1,18 +1,15 @@
 package com.openmind.zookeeper.zk;
 
-import com.openmind.zookeeper.DistributedLock;
-import com.openmind.zookeeper.LockStatus;
-import com.openmind.zookeeper.ReadWriteLock;
-import lombok.extern.slf4j.Slf4j;
+import com.openmind.zookeeper.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 /**
@@ -23,8 +20,9 @@ import java.util.stream.Collectors;
  * @time 11:38
  * @desc
  */
-@Slf4j
 public class ZkReadWriteLock implements ReadWriteLock {
+    private final static Logger log = LoggerFactory.getLogger(ZkReadWriteLock.class);
+
     private final static String SHARE_LOCK_PATH = "/share_locks";
     /**
      * 自旋测试超时阈值，考虑到网络的延时性，这里设为1000毫秒
@@ -268,7 +266,7 @@ public class ZkReadWriteLock implements ReadWriteLock {
             }
 
             final long deadline = System.currentTimeMillis() + millisTimeout;
-            for (;;) {
+            for (; ; ) {
                 if (tryLock()) {
                     return true;
                 }
@@ -378,7 +376,8 @@ public class ZkReadWriteLock implements ReadWriteLock {
     /**
      * 能否请求到锁，如果第一个节点就是当前name节点，直接返回true
      * 如果节点名称在node列表中，且可读，则返回true，否则返回false
-     * @param name 锁名称
+     *
+     * @param name  锁名称
      * @param nodes 节点列表
      * @return
      */
@@ -403,6 +402,7 @@ public class ZkReadWriteLock implements ReadWriteLock {
 
     /**
      * 是否可写，第一个节点就是当前最小节点
+     *
      * @param name
      * @param nodes
      * @return
@@ -413,13 +413,14 @@ public class ZkReadWriteLock implements ReadWriteLock {
 
     /**
      * 过滤排序，防止在当前节点下面有不符合临时有序节点的其他节点
+     *
      * @param nodes
      * @return
      */
     private List<String> sortLockNodes(List<String> nodes) {
-        if(CollectionUtils.isNotEmpty(nodes) && nodes.size() > 1) {
+        if (CollectionUtils.isNotEmpty(nodes) && nodes.size() > 1) {
             nodes = nodes.parallelStream()
-                    .filter(x-> x.contains(READ_LOCK_FLAG) || x.contains(WRITE_LOCK_FLAG))
+                    .filter(x -> x.contains(READ_LOCK_FLAG) || x.contains(WRITE_LOCK_FLAG))
                     .collect(Collectors.toList());
             nodes.sort(tempSeqNodeComparator);
         }

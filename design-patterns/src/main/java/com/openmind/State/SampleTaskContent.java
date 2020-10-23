@@ -1,7 +1,5 @@
 package com.openmind.State;
 
-import lombok.Getter;
-
 /**
  * 抽检任务上下文环境
  *
@@ -18,7 +16,6 @@ public class SampleTaskContent {
     /**
      * 抽样任务状态
      */
-    @Getter
     private SampleState sampleState;
 
     public void setSampleState(SampleState sampleState) {
@@ -40,5 +37,9 @@ public class SampleTaskContent {
 
     public void submitSampleTask() {
         this.sampleState.submitSampleTask();
+    }
+
+    public SampleState getSampleState() {
+        return sampleState;
     }
 }

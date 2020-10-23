@@ -1,8 +1,5 @@
 package com.openmind.State;
 
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * 抽检状态抽象类
  *
@@ -14,8 +11,6 @@ import lombok.Setter;
 public abstract class SampleState {
 
     // 上下文，接收状态的变化
-    @Setter
-    @Getter
     protected SampleTaskContent sampleTaskContent;
 
     /**
@@ -30,6 +25,7 @@ public abstract class SampleState {
 
     /**
      * 检验抽检是否完成，如果完成，返回true，否则返回false
+     *
      * @return
      */
     public abstract boolean isCompleteSampled();
@@ -38,4 +34,12 @@ public abstract class SampleState {
      * 抽检任务已提交
      */
     public abstract void submitSampleTask();
+
+    public SampleTaskContent getSampleTaskContent() {
+        return sampleTaskContent;
+    }
+
+    public void setSampleTaskContent(SampleTaskContent sampleTaskContent) {
+        this.sampleTaskContent = sampleTaskContent;
+    }
 }

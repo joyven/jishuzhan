@@ -1,25 +1,19 @@
 package com.openmind.zookeeper.curator;
 
-import com.openmind.zookeeper.DistributedLock;
-import com.openmind.zookeeper.LockStatus;
-import com.openmind.zookeeper.ReadWriteLock;
-import lombok.extern.slf4j.Slf4j;
+import com.openmind.zookeeper.*;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.recipes.cache.*;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.curator.utils.CloseableUtils;
 import org.apache.zookeeper.CreateMode;
-import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.data.Stat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.Closeable;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 /**
  * 读写共享锁
@@ -29,8 +23,8 @@ import java.util.concurrent.Executors;
  * @time 15:17
  * @desc
  */
-@Slf4j
 public class ZkReadWriteLock implements ReadWriteLock {
+    private final static Logger log = LoggerFactory.getLogger(ZkReadWriteLock.class);
     private static final String ROOT_SHARE_LOCK = "/share_locks/lock";
     /**
      * 自旋测试超时阈值，考虑到网络的延时性，这里设为1000毫秒

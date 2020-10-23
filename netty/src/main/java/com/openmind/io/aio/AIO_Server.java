@@ -3,10 +3,7 @@ package com.openmind.io.aio;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.AsynchronousChannelGroup;
-import java.nio.channels.AsynchronousServerSocketChannel;
-import java.nio.channels.AsynchronousSocketChannel;
-import java.nio.channels.CompletionHandler;
+import java.nio.channels.*;
 import java.nio.charset.Charset;
 import java.util.Scanner;
 import java.util.concurrent.Executors;
@@ -23,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class AIO_Server {
     static Charset charset = Charset.forName("UTF-8");
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void start() throws InterruptedException {
         int port = 7890;
 
         new Thread(new AioServer(port)).start();

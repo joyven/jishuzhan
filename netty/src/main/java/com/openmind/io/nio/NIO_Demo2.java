@@ -3,16 +3,10 @@ package com.openmind.io.nio;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
+import java.nio.channels.*;
 import java.nio.channels.spi.SelectorProvider;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -28,7 +22,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @desc
  */
 public class NIO_Demo2 {
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public void start() throws IOException, InterruptedException {
         Thread t = new Thread(new NioServer(3333), "accept-server");
         t.start();
     }

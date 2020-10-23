@@ -2,21 +2,14 @@ package com.openmind.zookeeper.zk;
 
 import com.openmind.zookeeper.DistributedLock;
 import com.openmind.zookeeper.LockStatus;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.zookeeper.CreateMode;
-import org.apache.zookeeper.KeeperException;
-import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.Watcher;
-import org.apache.zookeeper.ZooDefs;
-import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Random;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * 用ZooKeeper原生API实现分布式独享锁
@@ -26,8 +19,9 @@ import java.util.concurrent.TimeUnit;
  * @time 11:13
  * @desc
  */
-@Slf4j
 public class ZkExclusiveLock implements DistributedLock {
+    private final static Logger log = LoggerFactory.getLogger(ZkExclusiveLock.class);
+
     private static final String LOCK_NODE_PATH = "/exclusive_locks/lock";
     /**
      * 自旋测试超时阈值，考虑到网络的延时性，这里设为1000毫秒
