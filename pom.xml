@@ -13,6 +13,8 @@
         <module>javabase</module>
         <module>guice-demo</module>
         <module>vhrserv</module>
+        <module>jobs</module>
+        <module>flink</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

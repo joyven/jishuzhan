@@ -1,6 +1,6 @@
 spring:
     profiles:
-        active: acuator
+        active: shiro
     mvc:
         static-path-pattern: /**
     resources:
