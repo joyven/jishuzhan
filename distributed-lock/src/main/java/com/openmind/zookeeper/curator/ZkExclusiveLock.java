@@ -1,13 +1,14 @@
 package com.openmind.zookeeper.curator;
 
-import com.openmind.zookeeper.LockStatus;
 import com.openmind.zookeeper.DistributedLock;
-import lombok.extern.slf4j.Slf4j;
+import com.openmind.zookeeper.LockStatus;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.data.Stat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Random;
 import java.util.concurrent.CyclicBarrier;
@@ -21,8 +22,8 @@ import java.util.concurrent.TimeUnit;
  * @time 11:45
  * @desc
  */
-@Slf4j
 public class ZkExclusiveLock implements DistributedLock {
+    private final static Logger log = LoggerFactory.getLogger(ZkExclusiveLock.class);
 
     private LockStatus lockStatus;
     private CuratorFramework curatorFramework;
@@ -35,7 +36,7 @@ public class ZkExclusiveLock implements DistributedLock {
     /**
      * 现成休眠100毫秒，重试加锁
      */
-    private static final long SLEPP_TIME = 100L;
+    private static final long SLEEP_TIME = 100L;
     private String lockName;
     private CyclicBarrier lockBarrier = new CyclicBarrier(2);
     private String id = String.valueOf(new Random(System.nanoTime()).nextInt(10000000));
@@ -113,7 +114,7 @@ public class ZkExclusiveLock implements DistributedLock {
              * 考虑到网络的延时性，在加锁的时候，考虑在该阈值内，让线程休眠等待。
              */
             if (millsTimeout > spinForTimeoutThreshold) {
-                TimeUnit.MILLISECONDS.sleep(SLEPP_TIME);
+                TimeUnit.MILLISECONDS.sleep(SLEEP_TIME);
             }
 
             millsTimeout = deadline - System.currentTimeMillis();

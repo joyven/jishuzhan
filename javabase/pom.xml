@@ -10,6 +10,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>javabase</artifactId>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -17,6 +22,36 @@
             <artifactId>cglib</artifactId>
             <version>3.2.12</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>29.0-jre</version>
+        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>org.eclipse.platform</groupId>-->
+        <!--<artifactId>org.eclipse.jface.text</artifactId>-->
+        <!--<version>3.15.0</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>org.eclipse.platform</groupId>-->
+        <!--<artifactId>org.eclipse.jface</artifactId>-->
+        <!--<version>3.19.0</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>org.eclipse.platform</groupId>-->
+        <!--<artifactId>org.eclipse.jface.text</artifactId>-->
+        <!--<version>3.16.200</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>org.eclipse.platform</groupId>-->
+        <!--<artifactId>org.eclipse.text</artifactId>-->
+        <!--<version>3.10.100</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>org.eclipse.platform</groupId>-->
+        <!--<artifactId>org.eclipse.core.runtime</artifactId>-->
+        <!--<version>3.17.100</version>-->
+        <!--</dependency>-->
     </dependencies>
 
 </project>

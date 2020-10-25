@@ -3,11 +3,7 @@ package com.openmind.io.nio;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
-import java.util.Arrays;
+import java.nio.channels.*;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -20,7 +16,7 @@ import java.util.Set;
  * @desc
  */
 public class NIODemo {
-    public static void main(String[] args) throws IOException {
+    public void start() throws IOException {
         ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
         serverSocketChannel.bind(new InetSocketAddress("0.0.0.0", 8888), 50);
         serverSocketChannel.configureBlocking(false);

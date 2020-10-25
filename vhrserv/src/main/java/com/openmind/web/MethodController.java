@@ -1,5 +1,6 @@
 package com.openmind.web;
 
+import com.openmind.annotation.RateLimiterAspect;
 import com.openmind.service.MethodService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ public class MethodController {
     @Resource
     private MethodService methodService;
 
+    @RateLimiterAspect
     @GetMapping("/admin")
     public String admin() {
         return methodService.admin();

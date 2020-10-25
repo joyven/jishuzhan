@@ -1,5 +1,7 @@
 package com.openmind;
 
+import java.io.IOException;
+
 /**
  * ${name}
  *
@@ -19,7 +21,8 @@ public class Math {
         return c;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        System.in.read();
         Math math = new Math();
         int age = Math.user.getAge();
         System.out.println(age);

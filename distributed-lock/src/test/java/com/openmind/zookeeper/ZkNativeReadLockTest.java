@@ -1,6 +1,6 @@
 package com.openmind.zookeeper;
 
-import com.openmind.zookeeper.zknative.ZkReadWriteLock;
+import com.openmind.zookeeper.zk.ZkReadWriteLock;
 import org.junit.Test;
 
 import java.util.Random;

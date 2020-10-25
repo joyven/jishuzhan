@@ -1,11 +1,7 @@
 package com.openmind.io.bio;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.InetSocketAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.io.*;
+import java.net.*;
 
 /**
  * ${name}
@@ -16,7 +12,7 @@ import java.net.Socket;
  * @desc
  */
 public class NewThreadBIODemo {
-    public static void main(String[] args) throws IOException {
+    public static void start() throws IOException {
         ServerSocket serverSocket = new ServerSocket();
         serverSocket.bind(new InetSocketAddress("0.0.0.0", 8888), 50);
         Socket socket;

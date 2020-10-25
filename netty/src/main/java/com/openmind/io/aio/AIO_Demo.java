@@ -3,9 +3,7 @@ package com.openmind.io.aio;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.AsynchronousServerSocketChannel;
-import java.nio.channels.AsynchronousSocketChannel;
-import java.nio.channels.CompletionHandler;
+import java.nio.channels.*;
 import java.nio.charset.Charset;
 
 /**
@@ -21,7 +19,7 @@ public class AIO_Demo {
     private static final int BYTE_LEN = 8;
     static Charset charset = Charset.forName("utf-8");
 
-    public static void main(String[] args) throws IOException {
+    public static void start() throws IOException {
         new AIO_Demo().startServer();
         while (true) {
             ;

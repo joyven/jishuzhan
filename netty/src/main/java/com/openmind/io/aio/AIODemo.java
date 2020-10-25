@@ -3,9 +3,7 @@ package com.openmind.io.aio;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.AsynchronousServerSocketChannel;
-import java.nio.channels.AsynchronousSocketChannel;
-import java.nio.channels.CompletionHandler;
+import java.nio.channels.*;
 
 /**
  * ${name}
@@ -16,7 +14,7 @@ import java.nio.channels.CompletionHandler;
  * @desc
  */
 public class AIODemo {
-    public static void main(String[] args) throws IOException {
+    public void start() throws IOException {
         final AsynchronousServerSocketChannel asynchronousServerSocketChannel = AsynchronousServerSocketChannel.open();
         asynchronousServerSocketChannel.bind(new InetSocketAddress("0.0.0.0", 8888), 1000000);
         asynchronousServerSocketChannel.accept(null, new CompletionHandler<AsynchronousSocketChannel, Object>() {
@@ -36,6 +34,7 @@ public class AIODemo {
 
     static class ClientReadHandler implements CompletionHandler<Integer, ByteBuffer> {
         AsynchronousSocketChannel socketChannel;
+
         public ClientReadHandler(AsynchronousSocketChannel socketChannel) {
             this.socketChannel = socketChannel;
         }

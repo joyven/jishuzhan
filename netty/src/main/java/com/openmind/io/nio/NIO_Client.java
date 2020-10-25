@@ -2,11 +2,8 @@ package com.openmind.io.nio;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.SocketChannel;
+import java.nio.channels.*;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -19,19 +16,17 @@ import java.util.Set;
  * @desc
  */
 public class NIO_Client {
-    public static void main(String[] args) throws UnknownHostException {
+    public void start(String portStr) {
         int port = 3333;
-        if (args != null && args.length > 0) {
-            try {
-                port = Integer.valueOf(args[0]);
-            } catch (NumberFormatException e) {
-                port = 3333;
-            }
+        try {
+            port = Integer.valueOf(portStr);
+        } catch (NumberFormatException e) {
+            port = 3333;
         }
         new Thread(new TimeClientHandle("127.0.0.1", port), "Time-Client-001").start();
     }
 
-    static class TimeClientHandle implements Runnable{
+    static class TimeClientHandle implements Runnable {
         private String host;
         private int port;
         private Selector selector;
@@ -107,7 +102,7 @@ public class NIO_Client {
             }
         }
 
-        public void handleInput(SelectionKey key) throws IOException{
+        public void handleInput(SelectionKey key) throws IOException {
             //若该selectorkey可用
             if (key.isValid()) {
                 //将key转型为SocketChannel
@@ -120,7 +115,7 @@ public class NIO_Client {
                         sc.register(selector, SelectionKey.OP_READ);
                         //向管道写数据
                         doWrite(sc);
-                    }else {
+                    } else {
                         //连接失败 进程退出
                         System.exit(1);
                     }
@@ -130,10 +125,10 @@ public class NIO_Client {
                 if (key.isReadable()) {
                     //创建一个缓冲区
                     ByteBuffer readBuffer = ByteBuffer.allocate(1024);
-                    System.out.println("before  :  "+readBuffer);
+                    System.out.println("before  :  " + readBuffer);
                     //从管道中读取数据然后写入缓冲区中
                     int readBytes = sc.read(readBuffer);
-                    System.out.println("after :  "+readBuffer);
+                    System.out.println("after :  " + readBuffer);
                     //若有数据
                     if (readBytes > 0) {
                         //反转缓冲区
@@ -157,6 +152,7 @@ public class NIO_Client {
                 }
             }
         }
+
         public void doConnect() throws IOException {
             //通过ip和端口号连接到服务器
             if (socketChannel.connect(new InetSocketAddress(host, port))) {
@@ -169,6 +165,7 @@ public class NIO_Client {
                 socketChannel.register(selector, SelectionKey.OP_CONNECT);
             }
         }
+
         private void doWrite(SocketChannel sc) throws IOException {
             //要写的内容
             byte[] req = "    -    QUERY TIME ORDER     -   ".getBytes();
